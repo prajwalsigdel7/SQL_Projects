@@ -1,4 +1,5 @@
 -- STEP 2- POPULATING SCHEMAS FIELD WITH CLOUD DATA HOSTED CSV FILES;
+SELECT '=== Loading CSV data to into tables ===' as Activity;
 
 INSERT INTO company_dim (company_id, name)
 SELECT company_id, name
@@ -27,3 +28,25 @@ INSERT INTO skills_job_dim (skill_id, job_id)
 SELECT skill_id, job_id
 FROM read_csv('https://storage.googleapis.com/sql_de/skills_job_dim.csv',
    AUTO_DETECT = TRUE);
+
+-- Data Validation
+
+SELECT 'Company Dim' AS table_name, COUNT(*) AS record_count FROM company_dim
+UNION ALL
+SELECT 'Skills Dim',  COUNT(*) FROM skills_dim
+UNION ALL
+SELECT 'Job Postings Fact', COUNT(*) FROM job_postings_fact
+UNION ALL
+SELECT 'Skills Job Dim', COUNT(*) FROM skills_job_dim;
+
+SELECT '=== Company Dimension Table Sample ===' AS info;
+SELECT * FROM company_dim LIMIT 5;
+
+SELECT '=== Skills Dimension Table Sample===' AS info;
+SELECT * FROM skills_dim LIMIT 5;
+
+SELECT'=== JPF Table Sample ===' AS info;
+SELECT * FROM job_postings_fact LIMIT 5;
+
+SELECT '=== Skills Job Dimension Table Sample ===' as info;
+SELECT * FROM skills_job_dim LIMIT 5;
